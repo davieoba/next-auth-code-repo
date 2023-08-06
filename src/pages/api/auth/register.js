@@ -1,5 +1,7 @@
 import { connectToMongoDB } from "@/lib/mongodb"
 import { User } from "@/models/user"
+import jwt from "jsonwebtoken"
+import { JWT_EXPIRES, JWT_SECRET } from "@/utils/config"
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(
@@ -25,12 +27,28 @@ export default async function handler(
     await user.save()
 
     if (!user) {
-      res.status(409).json({
+      return res.status(409).json({
         status: 'fail',
         message: 'validation error'
       })
     }
+    // send token
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES
+    })
+
+    return res.status(201).json({
+      success: true,
+      message: 'User created',
+      data: {
+        name: user.name,
+        email: user.email,
+        photo: user.photo,
+        token
+      }
+    })
+  } else {
+    // res.setHeader('Set-Cookie', 'myCookie=exampleValue; Path=/; HttpOnly')
+    return res.status(405).json({ error: 'Method not allowed' })
   }
-  // res.setHeader('Set-Cookie', 'myCookie=exampleValue; Path=/; HttpOnly')
-  res.status(200).json({ name: 'John Doe' })
 }

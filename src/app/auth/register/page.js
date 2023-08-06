@@ -1,14 +1,38 @@
 'use client'
 import * as Yup from 'yup'
+import Link from 'next/link'
+import { useFormik } from 'formik'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 import { AuthNavbar } from '@/components'
-import { useFormik } from 'formik'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { loginUser } from '@/helpers'
+
 
 const RegisterPage = () => {
   const router = useRouter()
+
+  const handleSubmit = async ({ name, password, email, confirmPassword }) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/register', {
+        name,
+        email,
+        password,
+        confirmPassword
+      })
+
+      if (response.data.success) {
+        // login the user
+        const loginResponse = await loginUser({ email, password })
+
+        if (loginResponse && !loginResponse.ok) {
+          throw new Error(loginResponse.error)
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {

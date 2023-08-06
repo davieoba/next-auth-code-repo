@@ -61,9 +61,13 @@ export const UserSchema = new mongoose.Schema({
   creditCards: [CardSchema]
 })
 
-
+// note: the pre save hook does not run for functions like findAndUpdate() even if the password was modified
 UserSchema.pre('save', async function (next) {
   // if the password is not modified then I dont't have to encrypt it
+  // scenario 1: registering for the first time, (!1) = 0 means the password is going to be hased
+  // scenario 2: updating the user password, (!1) = means that the user password should be hashed or encrypted
+  // scenario 3: resetting the user password, (!1) = means that the user password should be hashed
+  // scenario 4: I saved a document / modified a user document, (!0) = means that nothing should happen to the password
   if (!this.isModified('password')) {
     return next()
   }
@@ -72,8 +76,14 @@ UserSchema.pre('save', async function (next) {
   next()
 })
 
+// note: the pre save hook does not run for functions like findAndUpdate() even if the password was modified
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next()
+  // scenario 1: registering for the first time, (!1 || 1) = (0 || 1) = 1 exit the function
+  // scenario 2: updating the user password, (!1 || 0) = (0 || 0) = 0 update the passwordChangedAt property
+  // scenario 3: resetting user password, (!1 || 0) = (0 || 0) = 0 means update the passwordChangedAt property
+  // scenario 4: the password is not modified (!0 || 0) = (1 || 0) = 1 means the passwordChangedAt 
+
   /**
    * if isModified is true then continue running the code
    * isNew means is the document new
