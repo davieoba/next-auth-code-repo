@@ -1,12 +1,13 @@
 'use client'
 import * as Yup from 'yup'
 
-import { AuthNavbar } from "@/components"
 import { useFormik } from "formik"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { loginUser } from '@/helpers'
+import { Navbar } from '@/components/Navbar'
+import { signIn } from 'next-auth/react'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -42,6 +43,12 @@ const LoginPage = () => {
     }
   }
 
+  const handleGoogleSignIn = () => {
+    signIn('google', {
+      callbackUrl: 'http://localhost:3000/'
+    })
+  }
+
   const styles = {
     label: `text-[1.4rem] font-normal block mb-2`,
     input: `h-[3.5rem] w-full outline-0 px-4 border text-[1.4rem] focus:ring-1 rounded-md`,
@@ -50,7 +57,7 @@ const LoginPage = () => {
   return (
     <div>
       <div className='font-poppins'>
-        <AuthNavbar />
+        {/* <Navbar /> */}
         <section className='flex h-full w-full items-center justify-center py-16'>
           <div className='rounded-xl border py-4 px-6 space-y-8'>
 
@@ -135,12 +142,13 @@ const LoginPage = () => {
                 type='submit'
                 onClick={(e) => {
                   e.preventDefault()
-                  router.push('http://localhost:8100/api/v1/auth/google')
+                  handleGoogleSignIn()
+                  // router.push('http://localhost:8100/api/v1/auth/google')
                   // handleGoogleAuth()
                 }
                 }
               >
-                <p>Sign In with Google</p>
+                <p className='text-[1.4rem]'>Sign In with Google</p>
                 <Image
                   src='/assets/google.svg'
                   alt='Google'

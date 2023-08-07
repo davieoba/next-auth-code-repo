@@ -5,9 +5,7 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-import { AuthNavbar } from '@/components'
 import { loginUser } from '@/helpers'
-
 
 const RegisterPage = () => {
   const router = useRouter()
@@ -62,7 +60,7 @@ const RegisterPage = () => {
   return (
     <div>
       <div className='font-poppins'>
-        <AuthNavbar />
+        {/* <AuthNavbar /> */}
         <section className='flex h-full w-full items-center justify-center py-16'>
           <form
             action=''

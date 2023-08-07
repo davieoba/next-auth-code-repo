@@ -70,3 +70,14 @@ src
     ...
 ```
 the idea is that the normal server folders and the client folders are all in the `/src` directory
+
+## create the google api secret etc
+- go to google cloud console
+- create a new project, if you like
+- click on api and services
+- navigate to oauth consent screen
+  enter email address and info about user, otherwise pretty much leave everything as is (default)
+- click on credentials in the same sidebar where I saw the oauth consent screen, at the top of  the page u will see create credentials,
+- click on oauth client id
+- select web application for the application type
+-  

@@ -7,3 +7,6 @@
 html {
   font-size: 62.5%;
 }
+.auth-btn {
+  @apply text-[1.4rem] font-medium rounded-md px-8 py-3;
+}
