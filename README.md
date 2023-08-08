@@ -80,4 +80,9 @@ the idea is that the normal server folders and the client folders are all in the
 - click on credentials in the same sidebar where I saw the oauth consent screen, at the top of  the page u will see create credentials,
 - click on oauth client id
 - select web application for the application type
--  
+- 
+
+## callback url
+http://localhost:3000/api/auth/callback/google
+## todo
+- when a user logs in with google create the user in my own database

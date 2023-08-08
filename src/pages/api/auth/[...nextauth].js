@@ -52,6 +52,30 @@ const options = {
     maxAge: 60
   },
   callbacks: {
+    async signIn({ user, profile, account }) {
+
+      await connectToMongoDB()
+      if (account.provider === 'credentials') {
+
+        if (user) {
+          return true
+        }
+      }
+
+      const userExists = await User.findOne({ email: profile.email })
+
+      if (!userExists) {
+        const user = await User.create({
+          email: profile.email,
+          name: profile.name,
+          avatar: profile.picture,
+          password: profile.sub,
+          googleId: profile.sub
+        })
+      }
+
+      return true
+    },
     jwt: async ({ token, user, session, account, profile }) => {
       user && (token.user = user)
 
@@ -64,14 +88,14 @@ const options = {
     },
     session: async ({ session, token }) => {
       // console.log({ session, token })
-      console.log({ token })
+      // console.log({ token })
       const user = token.user
 
       // session.user = user
       // session.expires = ''
       // session.token = token
       session.role = user?.role || 'user'
-      session.photo = user?.avatar ? user.avatar.url : token.image
+      session.photo = user?.avatar ? user.avatar : token.image
       // session.expires = 30 * 1000
       return session
     }

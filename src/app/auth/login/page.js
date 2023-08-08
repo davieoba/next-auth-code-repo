@@ -31,7 +31,6 @@ const LoginPage = () => {
     // console.log({ email, password })
     try {
       const loginResponse = await loginUser({ email, password })
-      console.log({ loginResponse })
 
       if (loginResponse && !loginResponse.ok) {
         console.log(loginResponse.error)

@@ -20,10 +20,11 @@ export default async function handler(
     user.email = email
     user.password = password
     // user.passwordChangedAt = passwordChangedAt
-    user.avatar = {
-      public_id: 'avataaars_rkyikx',
-      url: 'https://res.cloudinary.com/diggungrj/image/upload/v1668579345/avataaars_rkyikx.svg'
-    }
+    // user.avatar = {
+    //   public_id: 'avataaars_rkyikx',
+    //   url: 'https://res.cloudinary.com/diggungrj/image/upload/v1668579345/avataaars_rkyikx.svg'
+    // }
+    user.avatar = 'https://res.cloudinary.com/diggungrj/image/upload/v1668579345/avataaars_rkyikx.svg'
     await user.save()
 
     if (!user) {

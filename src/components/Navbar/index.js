@@ -24,7 +24,7 @@ export const Navbar = () => {
 
   return (
     <div className=''>
-      <div className='hidden lg:block'>
+      <div className='lg:block'>
         <Desktop data={data} />
       </div>
     </div>
@@ -65,7 +65,7 @@ const Desktop = ({ data }) => {
           {data?.user ? (
             <div className='relative h-[4rem] w-[4rem] rounded-full'>
               <Image
-                src={data?.photo}
+                src={data?.user.image || data?.photo}
                 alt='profile image'
                 width={1000}
                 height={1000}
